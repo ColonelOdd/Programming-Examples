@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block main %}
+    <form action="/create" method="POST">
+        <div class="mb-3">
+            <input autocomplete="off" class="form-control mx-auto w-auto" min="0" name="game" placeholder="Game Name" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Make</button>
+    </form>
+{% endblock %}

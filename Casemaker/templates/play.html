@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Play
+{% endblock %}
+
+{% block script %}
+
+  {% for frame in frames %}
+    function proceed{{ frame.frame }}() {
+      document.getElementById("1").src = "/static/images/courtroom/{{ frame.position }}.png";
+
+      document.getElementById("2").src = "/static/images/courtroom/benches/{{ frame.position }}.png";
+
+      document.getElementById("3").src = "/static/images/characters/{{ frame.position }}/{{ frame.character }}/(a){{ frame.pose }}.gif";
+
+      document.getElementById("5").innerHTML = "{{ frame.dialogue }}";
+      document.getElementById("6").innerHTML = "{{ frame.character }}";
+
+      document.getElementById("2").className = "{{ frame.position }}bench";
+      document.getElementById("3").className = "{{ frame.position }}";
+
+      {% if frame.position == 'judge' %}
+        document.getElementById("4").className = "container c{{ frame.position }}";
+      {% endif %}
+
+      {% if frame.position == 'prosecution' %}
+        document.getElementById("2").width = "992.6";
+        document.getElementById("2").height = "135.5";
+
+        document.getElementById("3").width = "1024";
+        document.getElementById("3").height = "768";
+
+        document.getElementById("4").style.top = "-1035px";
+        document.getElementById("4").style.left = "0px";
+      {% endif %}
+
+      {% if frame.position == 'defense' %}
+        document.getElementById("2").width = "992.6";
+        document.getElementById("2").height = "135.5";
+
+        document.getElementById("3").width = "1024";
+        document.getElementById("3").height = "768";
+
+        document.getElementById("4").style.top = "-1120px";
+        document.getElementById("4").style.left = "0px";
+      {% endif %}
+
+      {% if frame.position == 'judge' %}
+        document.getElementById("2").width = "0";
+        document.getElementById("2").height = "0";
+
+        document.getElementById("3").width = "960";
+        document.getElementById("3").height = "640";
+
+        document.getElementById("4").style.top = "-857px";
+        document.getElementById("4").style.left = "-2.3px";
+      {% endif %}
+
+      {% if frame.position == 'witness' %}
+        document.getElementById("2").width = "801.3";
+        document.getElementById("2").height = "147.3";
+
+        document.getElementById("3").width = "1024";
+        document.getElementById("3").height = "135.5";
+
+        document.getElementById("4").style.top = "-1046px";
+        document.getElementById("4").style.left = "0px";
+      {% endif %}
+
+      var x = Number({{ frame.frame }}) + 1;
+      document.getElementById("7").setAttribute("onclick", `proceed${x}()`);
+    }
+  {% endfor %}
+
+  window.addEventListener('load', event => { proceed1(); });
+
+{% endblock %}
+
+{% block main %}
+<div class="parent">
+  <div class = "scene">
+    <img id="1" class="bg" src="" alt="Bootstrap" width="1280" height="720" style="max-width:100%;"/>
+    <img id="2" class="" src="" alt="Bootstrap" width="992.6" height="135.5" style="max-width:100%;"/>
+    <img id="3" class="" src="" alt="Bootstrap" width="1024" height="768" style="max-width:100%;"/>
+
+    <div class="container" id ="4" width="1280" height="188.66">
+        <img class="textbox" src="/static/images/text/full.png" alt="Bootstrap" width="1280" height="188.66" style="max-width:100%;"/>
+        <div class="text" id="5">
+
+        </div>
+        <div class="name" id="6"></div>
+        <img class="select" id="7" onclick="proceed1()" src="/static/images/text/proceed.png" alt="Bootstrap" width="60" height="60" style="max-width:100%;"/>
+    </div>
+  </div>
+</div>
+{% endblock %}

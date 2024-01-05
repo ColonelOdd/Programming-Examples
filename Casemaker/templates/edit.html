@@ -1,0 +1,208 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block script %}
+    function check() {
+
+        const witness = {{ witnesses|safe }};
+        const prosecution = {{ prosecutors|safe }};
+        const defense = {{ defenses|safe }};
+        const judge = {{ judges|safe }};
+        const poses = {{ c|safe }};
+
+        {% for frame in frames %}
+            document.getElementById("{{ frame.position }}-{{ frame.frame }}").setAttribute("selected", " ");
+
+            if ("{{ frame.position }}" == "{{ frame.position }}"){
+                let len = {{ frame.position }}.length;
+                var x = document.getElementById("character-{{ frame.frame }}");
+                for (let i = 0; i < len; i++){
+                    var option = document.createElement("option");
+                    option.value = {{ frame.position }}[i];
+                    option.text = {{ frame.position }}[i];
+                    if ("{{ frame.character }}" == {{ frame.position }}[i]){
+                        option.setAttribute("selected", " ");
+                        x.appendChild(option);
+                    }else {
+                        x.appendChild(option);
+                    }
+                }
+            }
+
+            if ("{{ frame.pose }}" == "{{ frame.pose }}"){
+
+                let len = poses.length;
+                var x = document.getElementById("pose-{{ frame.frame }}");
+                for (let i = 0; i < len; i++){
+                    if (poses[i].name == "{{ frame.character }}"){
+                        var option = document.createElement("option");
+                        option.value = poses[i].pose;
+                        option.text = poses[i].pose;
+                        if ("{{ frame.pose }}" == poses[i].pose){
+                            option.setAttribute("selected", " ");
+                            x.appendChild(option);
+                        }else {
+                            x.appendChild(option);
+                        }
+                    }
+                }
+            }
+        {% endfor %}
+    }
+
+    window.addEventListener('load', event => { check(); });
+
+
+    function characterSwap(clicked) {
+        const witness = {{ witnesses|safe }};
+        const prosecution = {{ prosecutors|safe }};
+        const defense = {{ defenses|safe }};
+        const judge = {{ judges|safe }};
+
+        let position = clicked.value;
+        let frame = clicked.id.slice(-1);
+        {% for position in positions %}
+            if (position == "{{ position.position }}"){
+
+                var x = document.getElementById(`character-${frame}`);
+                var i, L = x.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    x.remove(i);
+                }
+
+                let len = {{ position.position }}.length;
+                    for (let i = 0; i < len; i++){
+                        var option = document.createElement("option");
+                        option.value = {{ position.position }}[i];
+                        option.text = {{ position.position }}[i];
+                        x.appendChild(option);
+                    }
+            }
+
+
+        {% endfor %}
+    }
+
+    function posesUpdate(clicked) {
+        const poses = {{ c|safe }};
+
+        let frame = clicked.id.slice(-1);
+        var character = document.getElementById(`character-${frame}`);
+        let name = character.value;
+
+        var x = document.getElementById(`pose-${frame}`);
+        var i, L = x.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    x.remove(i)
+                }
+        let len = poses.length;
+
+        for (let i = 0; i < len; i++){
+            if (poses[i].name == name){
+                var option = document.createElement("option");
+                option.value = poses[i].pose;
+                option.text = poses[i].pose;
+                x.appendChild(option);
+            }
+        }
+    }
+
+    function newRow(){
+        var table = document.getElementById("main-table");
+        var rows = table.tBodies[0];
+        var frames = table.tBodies[0].rows.length;
+        var cframe = frames + 1;
+
+        var newrow = rows.insertRow(frames);
+        var cell1 = newrow.insertCell(0);
+        cell1.innerHTML = `${cframe}<input type="hidden" id="slider_input" name="frame" value="${cframe}"/>`;
+        cell1.classList.add("text-start");
+
+
+        var cell2 = newrow.insertCell(1);
+        cell2.classList.add("text-start");
+        cell2.innerHTML = `<select onchange="characterSwap(this); posesUpdate(this);" class="form-select w-auto" name="position" id="position-${cframe}"><option id="defense-${cframe}" value="defense">defense</option>
+            <option id="prosecution-${cframe}" value="prosecution">prosecution</option>
+            <option id="witness-${cframe}" value="witness">witness</option>
+            <option id="judge-${cframe}" value="judge">judge</option>`;
+
+        var cell3 = newrow.insertCell(2);
+        cell3.classList.add("text-start");
+        cell3.innerHTML = `<select id="character-${cframe}" onchange="posesUpdate(this)" class="form-select w-auto" name="character">
+            {% for defense in defenses %}
+                <option value="{{ defense }}">{{ defense }}</option>
+            {% endfor %}`;
+
+        var cell4 = newrow.insertCell(3);
+        cell4.classList.add("text-start");
+        cell4.innerHTML = `<select id="pose-${cframe}" class="form-select w-auto" name="pose">
+            {% for r in c %}
+                {% if r.name == defenses[0] %}
+                    <option value="{{ r.pose }}">{{ r.pose }}</option>
+                {% endif %}
+            {% endfor %}`;
+
+        var cell5 = newrow.insertCell(4);
+        cell5.classList.add("text-start");
+        cell5.innerHTML = `<div class="mb-3">
+            <input autocomplete="off" class="form-control w-auto" name="dialogue" placeholder="Dialogue" type="text" maxlength="80" value="Objection!">
+        </div>`;
+
+    }
+{% endblock %}
+
+{% block main %}
+<form action="/save" method="post">
+    <table id="main-table" class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Frame Number</th>
+                <th class="text-start">Position</th>
+                <th class="text-start">Character</th>
+                <th class="text-start">Pose</th>
+                <th class="text-start">Dialogue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for frame in frames %}
+                <tr>
+                    <td class="text-start">{{ frame.frame }} <input type="hidden" id="slider_input" name="frame" value="{{ frame.frame }}"/></td>
+                    <td class="text-start">
+                        <select onchange="characterSwap(this); posesUpdate(this);" class="form-select w-auto" name="position" id="position-{{ frame.frame }}">
+                            <option id="defense-{{ frame.frame }}" value="defense">defense</option>
+                            <option id="prosecution-{{ frame.frame }}" value="prosecution">prosecution</option>
+                            <option id="witness-{{ frame.frame }}" value="witness">witness</option>
+                            <option id="judge-{{ frame.frame }}" value="judge">judge</option>
+                    </td>
+                    <td class="text-start">
+                        <select id="character-{{ frame.frame }}" onchange="posesUpdate(this)" class="form-select w-auto" name="character">
+                    </td>
+                    <td class="text-start">
+                        <select id="pose-{{ frame.frame }}" class="form-select w-auto" name="pose">
+                    </td>
+                    <td class="text-start">
+                        <div class="mb-3">
+                            <input autocomplete="off" class="form-control w-auto" name="dialogue" placeholder="Dialogue" type="text" maxlength="160" value="{{ frame.dialogue }}">
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+                <td class="border-0 fw-bold text-end" colspan="3">
+                    <button type="button" class="btn btn-default btn-normal" onclick="newRow();">Add frame</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="border-0 fw-bold" colspan="5">
+                    <input type="hidden" id="slider_input" name="game_id" value="{{ game }}"/>
+                    <button class="btn btn-primary btn-large" type="submit">Save</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+{% endblock %}
