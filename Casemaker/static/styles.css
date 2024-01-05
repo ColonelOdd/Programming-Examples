@@ -1,0 +1,222 @@
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .red
+{
+    color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+    color: #2e944b;
+}
+
+/* Required for Image Stacking */
+.parent {
+    position: absolute;
+    top: 40;
+    left: 0;
+  }
+
+  .bg {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: auto;
+  }
+  .defensebench {
+    position: relative;
+    top: -135.5px;
+    left: -144px;
+    z-index: 2;
+    height: auto;
+    /* border: 1px green solid; */
+  }
+
+  .prosecutionbench {
+    position: relative;
+    top: -135.5px;
+    left: 144px;
+    z-index: 2;
+    height: auto;
+    /* border: 1px green solid; */
+  }
+
+  .witnessbench {
+    position: relative;
+    top: -147px;
+    left: 0px;
+    z-index: 2;
+  }
+
+  .judgebench {
+    position: relative;
+    z-index: 2;
+    height: auto;
+  }
+
+  .defense {
+    position: relative;
+    top: -880px;
+    left: -127.5px;
+    z-index: 1;
+    height: auto;
+
+  }
+
+  .prosecution {
+    position: relative;
+    top: -820px;
+    left: 127.5px;
+    z-index: 1;
+    height: auto;
+  }
+
+  .witness {
+    position: relative;
+    top: -867px;
+    left: 0px;
+    z-index: 1;
+    height: auto;
+  }
+
+  .judge {
+    position: relative;
+    top: -661px;
+    left: 0px;
+    z-index: 1;
+    height: auto;
+  }
+
+  .container {
+    position: relative;
+    text-align: left;
+    line-height: 1.2;
+    max-width: 1280px;
+    min-height: 189px;
+    top: -1120px;
+    left: 0px;
+  }
+
+  .container.cprosecution {
+    top = -1035px;
+    left = 0px;
+  }
+
+  .container.cdefense {
+    top = 1024;
+    left = 768;
+  }
+
+  .container.cwitness {
+    top = 1024;
+    left = 135.5;
+  }
+
+  .container.cjudge {
+    top = -857px;
+    left = -2.3px;
+  }
+
+  .scene {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: auto;
+    margin: auto;
+    width: 95%;
+  }
+
+  .textbox {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+  }
+
+  @font-face {
+    font-family: fot-modeminblarge_stdr;
+    src: url(font/fot-modeminblargestd-r-webfont.woff2) format('woff2'),
+         url(font/fot-modeminblargestd-r-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  .text {
+    position: absolute;
+    top: 59px;
+    left: 200px;
+    max-width: 592px;
+    min-height: 52.5px;
+    font-size: 33px;
+    font-family: fot-modeminblarge_stdr;
+    z-index: 4;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .name {
+    position: absolute;
+    top: 6px;
+    left: 147px;
+    max-width: 200px;
+    min-height: 52.5px;
+    font-size: 35px;
+    font-family: fot-modeminblarge_stdr;
+    z-index: 4;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .select {
+    position: absolute;
+    top: 115px;
+    left: 1200px;
+    z-index: 4;
+    animation-name: example;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes example {
+    0%   {left:1180px; top:115px;}
+    50%  {left:1185px; top:115px;}
+    100% {left:1180px; top:115px;}
+  }
+
+  .select {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 4;
+  }
+
+  .parent2 {
+    padding:  5% 0;
+  }
+
+  .child  {
+    padding: 10% 0;
+    text align: center;
+  }
+
+  .fadein {
+    animation: fadeIn 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
